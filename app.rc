@@ -1,0 +1,15 @@
+///////////////////////////////////////////////////////////////////////////////
+// Project:     wxSamples VCXProj Helper
+// Home:        https://github.com/PBfordev/wxsamplesvcxprojhelper
+// File Name:   data.h
+// Purpose:     Reading project files and writing command files
+// Author:      PB
+// Created:     2024-11-20
+// Copyright:   (c) 2024 PB
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
+
+
+#include "wx/msw/wx.rc"
+
+appIcon ICON "wx/msw/std.ico"
