@@ -57,7 +57,7 @@ wxArrayString ProjectData::GetXCopyCommands() const
 
     if ( !dstDir.empty() && !dstDir.EndsWith("\\") )
         dstDir += "\\";
-    if( !srcDir.empty() && !m_srcDir.EndsWith("\\") )
+    if ( !srcDir.empty() && !m_srcDir.EndsWith("\\") )
         srcDir += "\\";
 
     commands.reserve(m_dataFiles.size());
@@ -104,7 +104,7 @@ bool LoadProjectData(const wxString& path, ProjectData& data, wxArrayString& err
     {
         wxLogNull logNo;
 
-        if (!doc.Load(path))
+        if ( !doc.Load(path) )
         {
             errors.push_back("Could not load XML file.");
             return false;
@@ -113,7 +113,7 @@ bool LoadProjectData(const wxString& path, ProjectData& data, wxArrayString& err
 
     wxXmlNode* rootNode = doc.GetRoot();
 
-    if (rootNode->GetName() != "makefile")
+    if ( rootNode->GetName() != "makefile" )
     {
         errors.push_back(wxString::Format("Invalid root node name: '%s'", rootNode->GetName()));
         return false;
@@ -148,13 +148,13 @@ bool LoadProjectData(const wxString& path, ProjectData& data, wxArrayString& err
                 if ( nodeName == "dstdir" )
                 {
                     dstDir = dataChild->GetNodeContent().AfterLast('/');
-                    if (dstDir.empty())
+                    if ( dstDir.empty() )
                         errors.push_back("Invalid dstdir");
                 }
                 else if ( nodeName == "srcdir" )
                 {
                     srcDir = dataChild->GetNodeContent().AfterLast('/');
-                    if (srcDir.empty())
+                    if ( srcDir.empty() )
                         errors.push_back("Invalid srcdir");
                 }
                 else if ( nodeName == "files" )
@@ -254,8 +254,8 @@ REM argument is the project folder with data files and the second
 REM the folder where the executable is built. Both folder names must
 REM end with a backslash.
 
-IF /I "%2" EQU "" GOTO err_args
-IF /I "%3" NEQ "" GOTO err_args)";
+IF "%2" EQU "" GOTO err_args
+IF "%3" NEQ "" GOTO err_args)";
 
     static constexpr auto cmdFileEnd =
 R"(:success
@@ -297,20 +297,17 @@ exit /B %errorlevel%)";
         const wxArrayString dataFiles = d.GetFileNames();
         const wxString srcDir = d.GetSrcDir();
 
-        if ( !d.HasForcedXCopyCommands() )
+        for ( const auto& f : dataFiles )
         {
-            for ( const auto& f : dataFiles )
-            {
-                wxFileName fn(projectPath);
+            wxFileName fn(projectPath);
 
-                if ( !srcDir.empty() )
-                    fn.AppendDir(srcDir);
-                fn.SetFullName(f);
-                if ( !fn.FileExists() )
-                {
-                    warningCount++;
-                    wxLogWarning("File '%s' not found.", fn.GetFullPath());
-                }
+            if ( !srcDir.empty() )
+                fn.AppendDir(srcDir);
+            fn.SetFullName(f);
+            if ( !fn.FileExists() )
+            {
+                warningCount++;
+                wxLogWarning("File '%s' not found.", fn.GetFullPath());
             }
         }
 

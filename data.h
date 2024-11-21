@@ -45,7 +45,6 @@ private:
     wxArrayString m_dataFiles;
 };
 
-// the key is the full project file path
 using ProjectDatas = std::vector<ProjectData>;
 
 struct ProjectError
